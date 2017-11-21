@@ -6,7 +6,7 @@
       "type": "httpTrigger",
       "name": "name",
       "direction": "in",
-      "authLevel": "anonymous",
+      "authLevel": "function",
       "methods": [ "post" ]
     },
     {
