@@ -1,0 +1,61 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '2.0.1'
+    id "org.jetbrains.kotlin.jvm" version "1.1.60"
+    id "application"
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+mainClassName = 'azure.tika.FunctionKt'
+
+defaultTasks 'run'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.jetbrains.kotlin:kotlin-stdlib'
+    compile 'com.squareup.moshi:moshi-kotlin:1.5.0'
+
+    // Not needed at this point:
+    //compile 'com.microsoft.azure:azure-functions-java-core:1.0.0-beta-2'
+
+    //compile "org.apache.tika:tika:1.16"
+
+    testCompile 'org.jetbrains.kotlin:kotlin-test-junit'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.3'
+}
+
+ext {
+    azureOutputDir = "$buildDir/azure-functions/"
+}
+
+task copyJar(type: Copy) {
+    from "$libsDir/${rootProject.name}-all.jar"
+    into azureOutputDir
+    rename { String fileName ->
+        fileName.replace("${rootProject.name}-all", 'function')
+    }
+}
+copyJar.dependsOn(build)
+copyJar.group = 'azure'
+
+task copyFunctionDefs(type: Copy) {
+    from "src/main/resources/functions"
+    into azureOutputDir
+    include('**/function.json')
+}
+copyFunctionDefs.dependsOn(build)
+copyFunctionDefs.group = 'azure'
+
+task packageAzureFunction(type: Copy) {
+    from rootDir
+    into azureOutputDir
+    include('host.json', 'local.settings.json')
+}
+packageAzureFunction.dependsOn(copyJar, copyFunctionDefs)
+packageAzureFunction.group = 'azure'
