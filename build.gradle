@@ -21,7 +21,7 @@ dependencies {
     // Not needed at this point:
     //compile 'com.microsoft.azure:azure-functions-java-core:1.0.0-beta-2'
 
-    //compile "org.apache.tika:tika:1.16"
+    compile "org.apache.tika:tika-parsers:1.16"
 
     testCompile 'org.jetbrains.kotlin:kotlin-test-junit'
 }
