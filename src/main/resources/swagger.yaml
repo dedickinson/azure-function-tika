@@ -1,0 +1,42 @@
+swagger: '2.0'
+
+info:
+  version: 0.1.0
+  title: Tika API
+  description: A basic API for extracting metadata and full text
+  license:
+    name: MIT
+
+schemes:
+  - https
+
+host: anansi-tika.azurewebsites.net
+basePath: /api
+
+produces:
+  - application/json
+
+paths:
+  /greeting:
+    post:
+      summary: A test endpoint
+      consumes:
+        - text/plain
+      parameters:
+        - in: header
+          name: x-functions-key
+          required: true
+          type: string
+          description: The Azure Function key
+        - in: body
+          name: name
+          description: The user to greet
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: A basic JSON doc
+
+        401:
+          description: Unauthorized - 'x-functions-key' header is required with a key

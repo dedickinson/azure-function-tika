@@ -49,13 +49,25 @@ task copyFunctionDefs(type: Copy) {
     into azureOutputDir
     include('**/function.json')
 }
-copyFunctionDefs.dependsOn(build)
 copyFunctionDefs.group = 'azure'
+
+task copyOpenApiDef(type: Copy) {
+    from "src/main/resources"
+    into azureOutputDir
+    include('swagger.*')
+}
+copyOpenApiDef.group = 'azure'
+
+task cleanAzureFunction(type: Delete) {
+    delete azureOutputDir
+}
+cleanAzureFunction.group = 'azure'
 
 task packageAzureFunction(type: Copy) {
     from rootDir
     into azureOutputDir
     include('host.json', 'local.settings.json')
 }
-packageAzureFunction.dependsOn(copyJar, copyFunctionDefs)
+packageAzureFunction.dependsOn(cleanAzureFunction, build, copyJar, copyFunctionDefs, copyOpenApiDef)
 packageAzureFunction.group = 'azure'
+
