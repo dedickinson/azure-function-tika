@@ -10,7 +10,7 @@ info:
 schemes:
   - https
 
-host: anansi-tika.azurewebsites.net
+host: anansi-kotlin-tika.azurewebsites.net
 basePath: /api
 
 produces:

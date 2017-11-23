@@ -1,34 +1,44 @@
 package azure.tika
 
+import com.microsoft.azure.serverless.functions.ExecutionContext
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import org.apache.tika.io.TikaInputStream
-import org.apache.tika.parser.AutoDetectParser
-import org.apache.tika.sax.BodyContentHandler
 import org.apache.tika.metadata.Metadata
+import org.apache.tika.parser.AutoDetectParser
 import org.apache.tika.parser.ParseContext
-import java.io.File
+import org.apache.tika.sax.BodyContentHandler
 
-data class GreetingResponse(val response: String = "")
+data class KotlinGreetingResponse(val response: String = "")
 
-val jsonAdapter: JsonAdapter<GreetingResponse> = Moshi.Builder()
+class KotlinGreetingResponse2(val response: String = "")
+
+val jsonAdapter: JsonAdapter<KotlinGreetingResponse> = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
-        .adapter(GreetingResponse::class.java)
+        .adapter(KotlinGreetingResponse::class.java)
 
-fun greeting(name: String? = "World"): String {
-
-    // We still need to check `name` for NULL as the Azure Function
-    // passes in Null, pushing past the default. `name` is marked as
-    // nullable as we want to handle an empty request body
-
+fun kotlinGreetingJson(name: String? = "World", context: ExecutionContext): String {
+    context.logger.info("kotlinGreetingJson Called")
     return jsonAdapter.toJson(
-            GreetingResponse(response = "Hello, ${name?:"World"}")
+            KotlinGreetingResponse(response = "Hello, ${name ?: "World"}")
     )
 }
 
-fun tika(content: ByteArray): String {
+fun kotlinGreetingDataClass(name: String? = "World", context: ExecutionContext): KotlinGreetingResponse {
+    context.logger.info("kotlinGreetingDataClass Called")
+    return KotlinGreetingResponse(response = "Hello, ${name ?: "World"}")
+}
+
+fun kotlinGreetingClass(name: String? = "World", context: ExecutionContext): KotlinGreetingResponse2 {
+    context.logger.info("kotlinGreetingClass Called")
+    return KotlinGreetingResponse2("Hello, ${name ?: "World"}")
+}
+
+fun kotlinTika(content: ByteArray, context: ExecutionContext): String {
+    context.logger.info("kotlinTika Called")
+
     val parser = AutoDetectParser()
     val handler = BodyContentHandler()
     val metadata = Metadata()
@@ -40,9 +50,3 @@ fun tika(content: ByteArray): String {
     return metadata.get("Content-Type")
 }
 
-fun main(args: Array<String>) {
-    if (args.size != 1) throw IllegalArgumentException("Require 1 input parameter")
-
-    println(tika(File(args[0]).readBytes()))
-
-}

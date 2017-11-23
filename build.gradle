@@ -2,11 +2,15 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.1'
     id "org.jetbrains.kotlin.jvm" version "1.1.60"
     id "application"
+    id "groovy"
 }
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-mainClassName = 'azure.tika.FunctionKt'
+
+jar {
+    mainClassName = 'azure.kotlin-tika.FunctionKt'
+}
 
 defaultTasks 'run'
 
@@ -18,11 +22,10 @@ dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib'
     compile 'com.squareup.moshi:moshi-kotlin:1.5.0'
 
-    // Not needed at this point:
-    //compile 'com.microsoft.azure:azure-functions-java-core:1.0.0-beta-2'
+    compile 'com.microsoft.azure:azure-functions-java-core:1.0.0-beta-2'
 
-    compile "org.apache.tika:tika-parsers:1.16"
-
+    compile 'org.apache.tika:tika-parsers:1.16'
+    compile 'org.codehaus.groovy:groovy-all:2.4.10'
     testCompile 'org.jetbrains.kotlin:kotlin-test-junit'
 }
 

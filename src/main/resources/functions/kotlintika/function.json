@@ -1,0 +1,20 @@
+{
+  "scriptFile": "../function.jar",
+  "entryPoint": "azure.tika.FunctionKt.kotlinTika",
+  "bindings": [
+    {
+      "type": "httpTrigger",
+      "name": "content",
+      "direction": "in",
+      "dataType": "binary",
+      "path": "container/myfile.bin",
+      "authLevel": "function",
+      "methods": [ "post" ]
+    },
+    {
+      "type": "http",
+      "name": "$return",
+      "direction": "out"
+    }
+  ]
+}
