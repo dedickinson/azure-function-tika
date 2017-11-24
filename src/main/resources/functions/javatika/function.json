@@ -1,6 +1,6 @@
 {
   "scriptFile": "../function.jar",
-  "entryPoint": "azure.tika.GroovyFunctions.groovyTika",
+  "entryPoint": "azure.tika.JavaFunctions.javaTika",
   "bindings": [
     {
       "type": "httpTrigger",

@@ -20,8 +20,8 @@ class GroovyFunctions {
         return new GroovyGreetingResponse(response: "Hello, ${name?: 'World'}")
     }
 
-    static String groovyTika(def content, ExecutionContext context = null) {
-        context.logger.info("groovyTika Called")
+    static String groovyTika(byte[] content) {
+        //context.logger.info("groovyTika Called")
 
         def parser = new AutoDetectParser()
         def handler = new BodyContentHandler()

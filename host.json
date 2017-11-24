@@ -1,5 +1,7 @@
 {
-  "functions": [ "kotlingreetingjson",
+  "functions": [ "javagreeting",
+    "javatika",
+    "kotlingreetingjson",
     "kotlingreetingclass",
     "kotlingreetingdataclass",
     "kotlintika",

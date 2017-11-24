@@ -1,6 +1,7 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.1'
     id "org.jetbrains.kotlin.jvm" version "1.1.60"
+    id "java"
     id "application"
     id "groovy"
 }

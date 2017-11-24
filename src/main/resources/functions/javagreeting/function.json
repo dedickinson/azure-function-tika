@@ -1,13 +1,12 @@
 {
   "scriptFile": "../function.jar",
-  "entryPoint": "azure.tika.GroovyFunctions.groovyTika",
+  "entryPoint": "azure.tika.JavaFunctions.javaGreeting",
   "bindings": [
     {
       "type": "httpTrigger",
-      "name": "content",
+      "name": "name",
       "direction": "in",
-      "dataType": "binary",
-      "path": "tikaupload/upload.bin",
+      "dataType": "string",
       "authLevel": "function",
       "methods": [ "post" ]
     },
