@@ -14,6 +14,8 @@ data class KotlinGreetingResponse(val response: String = "")
 
 class KotlinGreetingResponse2(val response: String = "")
 
+data class KotlinTikaResponse(val metadata: Metadata, val content: String)
+
 val jsonAdapter: JsonAdapter<KotlinGreetingResponse> = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
@@ -36,7 +38,7 @@ fun kotlinGreetingClass(name: String? = "World", context: ExecutionContext): Kot
     return KotlinGreetingResponse2("Hello, ${name ?: "World"}")
 }
 
-fun kotlinTika(content: ByteArray, context: ExecutionContext): String {
+fun kotlinTika(content: ByteArray, context: ExecutionContext): KotlinTikaResponse {
     context.logger.info("kotlinTika Called")
 
     val parser = AutoDetectParser()
@@ -47,6 +49,6 @@ fun kotlinTika(content: ByteArray, context: ExecutionContext): String {
     val stream = TikaInputStream.get(content.inputStream())
     parser.parse(stream, handler, metadata, parseContext)
 
-    return metadata.get("Content-Type")
+    return KotlinTikaResponse(metadata, handler.toString())
 }
 

@@ -23,7 +23,8 @@ public class JavaFunctions {
         return new JavaGreetingResponse(output);
     }
 
-    static public Metadata javaTika(byte[] content, ExecutionContext context) throws TikaException, SAXException, IOException {
+    static public JavaTikaResponse javaTika(byte[] content, ExecutionContext context)
+            throws TikaException, SAXException, IOException {
         context.getLogger().info("javaTika Called");
 
         AutoDetectParser parser = new AutoDetectParser();
@@ -36,6 +37,6 @@ public class JavaFunctions {
         InputStream stream = TikaInputStream.get(inputStream);
         parser.parse(stream, handler, metadata, parseContext);
 
-        return metadata;
+        return new JavaTikaResponse(metadata, handler.toString());
     }
 }

@@ -10,7 +10,12 @@ import org.apache.tika.parser.ParseContext
 import org.apache.tika.sax.BodyContentHandler
 
 class GroovyGreetingResponse {
-    String response
+    final String response
+}
+
+class GroovyTikaResponse {
+    Metadata metadata
+    String content
 }
 
 class GroovyFunctions {
@@ -20,8 +25,8 @@ class GroovyFunctions {
         return new GroovyGreetingResponse(response: "Hello, ${name?: 'World'}")
     }
 
-    static String groovyTika(byte[] content) {
-        //context.logger.info("groovyTika Called")
+    static GroovyTikaResponse groovyTika(byte[] content, ExecutionContext context = null) {
+        context.logger.info("groovyTika Called")
 
         def parser = new AutoDetectParser()
         def handler = new BodyContentHandler()
@@ -33,6 +38,7 @@ class GroovyFunctions {
         def stream = TikaInputStream.get(inputStream)
         parser.parse(stream, handler, metadata, parseContext)
 
-        return JsonOutput.toJson('content-type': metadata.get("Content-Type"))
+        return new GroovyTikaResponse(metadata: metadata,
+                content: handler.toString())
     }
 }

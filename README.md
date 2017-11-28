@@ -64,3 +64,33 @@ To run up the functional locally:
 ````
 ./start-func.sh
 ```` 
+
+## Test the functions
+
+For the tika functions, you need to POST a file for investigating and set the request's `content-type`
+to `application/octet-stream` - as per the `curl` commands below:
+
+Java:
+
+    curl -X POST http://localhost:7071/api/javatika \
+      -H 'accept:n' \
+      -H 'cache-control: no-cache'   \
+      -H 'content-type: application/octet-stream' \
+      --data-binary @src/test/resources/TikaTestDocument.pdf
+
+
+Groovy:
+
+    curl -X POST http://localhost:7071/api/groovytika \
+      -H 'accept:n' \
+      -H 'cache-control: no-cache'   \
+      -H 'content-type: application/octet-stream' \
+      --data-binary @src/test/resources/TikaTestDocument.pdf
+
+Kotlin
+
+    curl -X POST http://localhost:7071/api/kotlintika \
+          -H 'accept:n' \
+          -H 'cache-control: no-cache'   \
+          -H 'content-type: application/octet-stream' \
+          --data-binary @src/test/resources/TikaTestDocument.pdf
